@@ -1,0 +1,6 @@
+[versions]
+semver = "2.0.0"
+kotlin = "2.0.0"
+
+[libraries]
+semver = { group = "net.swiftzer.semver", name = "semver", version.ref = "semver" }
