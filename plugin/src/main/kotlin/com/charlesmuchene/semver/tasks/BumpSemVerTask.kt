@@ -1,18 +1,18 @@
 package com.charlesmuchene.semver.tasks
 
-import com.charlesmuchene.semver.AdhocSemVerExtension
-import com.charlesmuchene.semver.AdhocSemVerExtension.BumpType.MAJOR
-import com.charlesmuchene.semver.AdhocSemVerExtension.BumpType.MINOR
-import com.charlesmuchene.semver.AdhocSemVerExtension.BumpType.PATCH
+import com.charlesmuchene.semver.BumpType.MAJOR
+import com.charlesmuchene.semver.BumpType.MINOR
+import com.charlesmuchene.semver.BumpType.PATCH
+import com.charlesmuchene.semver.BumpType
 import net.swiftzer.semver.SemVer
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Internal
 
-abstract class AdhocBumpSemVerTask : AdhocSemVerTask() {
+abstract class BumpSemVerTask : SemVerTask() {
 
     @get:Input
-    abstract val bumpType: Property<AdhocSemVerExtension.BumpType>
+    abstract val bumpType: Property<BumpType>
 
     @get:Internal
     abstract val outputVersion: Property<SemVer>

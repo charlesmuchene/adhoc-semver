@@ -8,13 +8,13 @@ import org.junit.jupiter.api.io.TempDir
 import java.io.File
 import kotlin.test.assertEquals
 
-class AdhocSetSemVerTaskTest {
+class SetSemVerTaskTest {
 
     @TempDir
     private lateinit var tempDir: File
 
     private val project = ProjectBuilder.builder().build()
-    private val task = project.tasks.create("downgrade", AdhocSetSemVerTask::class.java)
+    private val task = project.tasks.create("downgrade", SetSemVerTask::class.java)
 
     private lateinit var file: File
 

@@ -4,7 +4,7 @@ import net.swiftzer.semver.SemVer
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 
-abstract class AdhocSetSemVerTask : AdhocSemVerTask() {
+abstract class SetSemVerTask : SemVerTask() {
 
     @get:Input
     abstract val incomingVersion: Property<SemVer>

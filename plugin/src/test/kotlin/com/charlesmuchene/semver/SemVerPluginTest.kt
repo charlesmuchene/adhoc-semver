@@ -1,5 +1,5 @@
 package com.charlesmuchene.semver
 
-class AdhocSemVerPluginTest {
+class SemVerPluginTest {
 
 }

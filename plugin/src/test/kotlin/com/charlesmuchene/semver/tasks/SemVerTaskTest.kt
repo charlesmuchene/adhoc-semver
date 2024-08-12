@@ -15,10 +15,10 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
 
-class AdhocSemVerTaskTest {
+class SemVerTaskTest {
 
     private val project = ProjectBuilder.builder().build()
-    private val task = project.tasks.create("task", TestAdhocSemVerTask::class.java)
+    private val task = project.tasks.create("task", TestSemVerTask::class.java)
 
     @Test
     fun `sem ver parses version string`() {
@@ -111,7 +111,7 @@ class AdhocSemVerTaskTest {
         assertEquals(SemVer(2, 13, 7), version)
     }
 
-    internal abstract class TestAdhocSemVerTask : AdhocSemVerTask() {
+    internal abstract class TestSemVerTask : SemVerTask() {
         override val versionFile: RegularFileProperty = project.objects.fileProperty()
 
         override fun setVersion(version: SemVer): SemVer = version

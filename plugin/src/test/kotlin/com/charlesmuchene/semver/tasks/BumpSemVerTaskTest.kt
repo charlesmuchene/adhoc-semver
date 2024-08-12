@@ -1,6 +1,6 @@
 package com.charlesmuchene.semver.tasks
 
-import com.charlesmuchene.semver.AdhocSemVerExtension
+import com.charlesmuchene.semver.BumpType
 import net.swiftzer.semver.SemVer
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.jupiter.api.BeforeEach
@@ -9,13 +9,13 @@ import org.junit.jupiter.api.io.TempDir
 import java.io.File
 import kotlin.test.assertEquals
 
-class AdhocBumpSemVerTaskTest {
+class BumpSemVerTaskTest {
 
     @TempDir
     private lateinit var tempDir: File
 
     private val project = ProjectBuilder.builder().build()
-    private val task = project.tasks.create("bump", AdhocBumpSemVerTask::class.java)
+    private val task = project.tasks.create("bump", BumpSemVerTask::class.java)
 
     private lateinit var file: File
 
@@ -29,7 +29,7 @@ class AdhocBumpSemVerTaskTest {
 
     @Test
     fun `upgrade task bumps major version given major type`() {
-        task.bumpType.set(AdhocSemVerExtension.BumpType.MAJOR)
+        task.bumpType.set(BumpType.MAJOR)
         task.execute()
 
         val version = task.readVersion(task.readProperties()).second
@@ -39,7 +39,7 @@ class AdhocBumpSemVerTaskTest {
 
     @Test
     fun `upgrade task bumps minor version given major type`() {
-        task.bumpType.set(AdhocSemVerExtension.BumpType.MINOR)
+        task.bumpType.set(BumpType.MINOR)
         task.execute()
 
         val version = task.readVersion(task.readProperties()).second
@@ -49,7 +49,7 @@ class AdhocBumpSemVerTaskTest {
 
     @Test
     fun `upgrade task bumps patch version given major type`() {
-        task.bumpType.set(AdhocSemVerExtension.BumpType.PATCH)
+        task.bumpType.set(BumpType.PATCH)
         task.execute()
 
         val version = task.readVersion(task.readProperties()).second

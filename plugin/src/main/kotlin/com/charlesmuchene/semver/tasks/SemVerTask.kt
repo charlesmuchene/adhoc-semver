@@ -7,11 +7,10 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.TaskAction
-import java.io.File
 import java.io.Writer
 import java.util.*
 
-abstract class AdhocSemVerTask : DefaultTask() {
+abstract class SemVerTask : DefaultTask() {
 
     @get:InputFile
     abstract val versionFile: RegularFileProperty

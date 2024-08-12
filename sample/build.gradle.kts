@@ -1,7 +1,15 @@
+import com.charlesmuchene.semver.BumpType
+
 plugins {
     application
     kotlin("jvm") version "2.0.0"
     id("com.charlesmuchene.adhoc.semver")
+}
+
+adhocSemVer {
+    versionFile = layout.projectDirectory.file("gradle.properties")
+    shouldRevertVersionAfterExecution = true
+    bumpType = BumpType.MAJOR
 }
 
 group = "com.charlesmuchene.tools.sample"
@@ -17,8 +25,4 @@ tasks.test {
 
 application {
     mainClass = "com.charlesmuchene.tools.App"
-}
-
-adhocSemVer {
-//    versionFile.set(layout.projectDirectory.file("gradle.properties"))
 }
