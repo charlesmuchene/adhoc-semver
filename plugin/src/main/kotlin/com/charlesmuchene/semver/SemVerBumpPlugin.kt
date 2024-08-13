@@ -10,7 +10,7 @@ abstract class SemVerBumpPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         val extension = target.extensions.create(EXTENSION, SemVerBumpExtension::class.java).apply {
             bumpType.convention(BumpType.PATCH)
-            shouldRevertVersionAfterExecution.convention(true)
+            targetTaskName.convention(LOCAL_PUBLISH_TASK)
             versionFile.convention(target.layout.projectDirectory.file(DEFAULT_VERSION_FILE))
         }
 
@@ -19,22 +19,15 @@ abstract class SemVerBumpPlugin : Plugin<Project> {
             it.versionFile.convention(extension.versionFile)
         }
 
-        // TODO Make this depend on the publish plugin/task
-        val targetTask = target.tasks.named("run").map { it.dependsOn(semVerBumpTask) }
-
-        if (extension.shouldRevertVersionAfterExecution.get()) {
-            val semVerSetTask = target.tasks.register(SET_TASK, SetSemVerTask::class.java) { semVerTask ->
-                semVerTask.versionFile.convention(extension.versionFile)
-                semVerTask.incomingVersion.convention(semVerBumpTask.flatMap { task -> task.outputVersion })
-            }
-            targetTask.get().finalizedBy(semVerSetTask)
+        val semVerSetTask = target.tasks.register(SET_TASK, SetSemVerTask::class.java) { semVerTask ->
+            semVerTask.versionFile.convention(extension.versionFile)
+            semVerTask.incomingVersion.convention(semVerBumpTask.flatMap { task -> task.outputVersion })
         }
 
-        // Not required as these are 'simple' value assignments: just playing around with the gradle api :D
-        with(extension) {
-            bumpType.finalizeValueOnRead()
-            versionFile.finalizeValueOnRead()
-            shouldRevertVersionAfterExecution.finalizeValueOnRead()
+        target.pluginManager.withPlugin(MAVEN_PUBLISH) {
+            target.tasks.named(extension.targetTaskName.get()).get()
+                .dependsOn(semVerBumpTask)
+                .finalizedBy(semVerSetTask)
         }
     }
 
@@ -42,6 +35,8 @@ abstract class SemVerBumpPlugin : Plugin<Project> {
         const val EXTENSION = "tempSemVerBump"
         const val SET_TASK = "semVerSetVersion"
         const val BUMP_TASK = "semVerBumpVersion"
+        const val MAVEN_PUBLISH = "maven-publish"
+        const val LOCAL_PUBLISH_TASK = "publishToMavenLocal"
         const val DEFAULT_VERSION_FILE = "gradle.properties"
     }
 }

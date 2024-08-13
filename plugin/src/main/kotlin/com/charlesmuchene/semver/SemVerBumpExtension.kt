@@ -6,5 +6,5 @@ import org.gradle.api.provider.Property
 interface SemVerBumpExtension {
     val bumpType: Property<BumpType>
     val versionFile: RegularFileProperty
-    val shouldRevertVersionAfterExecution: Property<Boolean>
+    val targetTaskName: Property<String>
 }

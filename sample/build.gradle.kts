@@ -2,14 +2,15 @@ import com.charlesmuchene.semver.BumpType
 
 plugins {
     application
+    id("maven-publish")
     kotlin("jvm") version "2.0.0"
     id("com.charlesmuchene.temp.semver.bump")
 }
 
 tempSemVerBump {
     versionFile = layout.projectDirectory.file("gradle.properties")
-    shouldRevertVersionAfterExecution = true
-    bumpType = BumpType.MAJOR
+    targetTaskName = "publishToMavenLocal"
+    bumpType = BumpType.MINOR
 }
 
 java {
