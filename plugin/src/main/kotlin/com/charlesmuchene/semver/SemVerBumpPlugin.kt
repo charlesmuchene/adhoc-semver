@@ -27,14 +27,21 @@ abstract class SemVerBumpPlugin : Plugin<Project> {
                 semVerTask.versionFile.convention(extension.versionFile)
                 semVerTask.incomingVersion.convention(semVerBumpTask.flatMap { task -> task.outputVersion })
             }
-            targetTask.map { it.finalizedBy(semVerSetTask) }
+            targetTask.get().finalizedBy(semVerSetTask)
+        }
+
+        // Not required as these are 'simple' value assignments: just playing around with the gradle api :D
+        with(extension) {
+            bumpType.finalizeValueOnRead()
+            versionFile.finalizeValueOnRead()
+            shouldRevertVersionAfterExecution.finalizeValueOnRead()
         }
     }
 
     companion object {
         const val EXTENSION = "tempSemVerBump"
         const val SET_TASK = "semVerSetVersion"
-        const val BUMP_TASK = "semVerBump"
+        const val BUMP_TASK = "semVerBumpVersion"
         const val DEFAULT_VERSION_FILE = "gradle.properties"
     }
 }
