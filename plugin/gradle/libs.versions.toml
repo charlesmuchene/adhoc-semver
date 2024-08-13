@@ -1,6 +1,7 @@
 [versions]
 kotlin = "2.0.0"
 semver = "2.0.0"
+plugin-publish = "1.2.1"
 
 [libraries]
 semver = { group = "net.swiftzer.semver", name = "semver", version.ref = "semver" }

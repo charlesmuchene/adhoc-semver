@@ -9,13 +9,13 @@ import org.junit.jupiter.api.io.TempDir
 import java.io.File
 import kotlin.test.assertEquals
 
-class BumpSemVerTaskTest {
+class SemVerBumpTaskTest {
 
     @TempDir
     private lateinit var tempDir: File
 
     private val project = ProjectBuilder.builder().build()
-    private val task = project.tasks.create("bump", BumpSemVerTask::class.java)
+    private val task = project.tasks.create("bump", SemVerBumpTask::class.java)
 
     private lateinit var file: File
 

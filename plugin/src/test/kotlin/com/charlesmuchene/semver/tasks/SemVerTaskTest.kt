@@ -102,7 +102,7 @@ class SemVerTaskTest {
     }
 
     @Test
-    fun `executing adhoc test task yields the same version`() {
+    fun `executing task yields the same version`() {
         task.setValidInputs()
 
         task.execute()

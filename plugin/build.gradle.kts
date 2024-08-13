@@ -1,18 +1,21 @@
+@file:Suppress("UnstableApiUsage")
+
 plugins {
-    id("java-gradle-plugin")
     kotlin("jvm") version libs.versions.kotlin
+    id("com.gradle.plugin-publish") version libs.versions.plugin.publish
 }
 
 repositories {
     mavenCentral()
 }
 
-group = "com.charlesmuchene.adhoc.semver"
-version = "0.1.0"
+group = "com.charlesmuchene.semver.bump"
+version = providers.fileContents(
+    layout.projectDirectory.file("gradle/version.txt")
+).asText.getOrElse("")
 
 dependencies {
     implementation(libs.semver)
-//    implementation("net.swiftzer.semver:semver:2.0.0")
     testImplementation(kotlin("test"))
 }
 
@@ -22,9 +25,20 @@ tasks.test {
 
 gradlePlugin {
     plugins {
-        create("adhocsemver") {
-            id = "com.charlesmuchene.adhoc.semver"
-            implementationClass = "com.charlesmuchene.semver.AdhocSemVerPlugin"
+        create("tempSemVerBump") {
+            tags = listOf("semver", "gradle")
+            displayName = "Temporary SemVer Bump"
+            id = "com.charlesmuchene.temp.semver.bump"
+            implementationClass = "com.charlesmuchene.semver.SemVerBumpPlugin"
+            description = "A plugin that temporarily bumps and then reverts a project's version."
         }
+    }
+    vcsUrl = "https://github.com/charlesmuchene/temp-semver-bump"
+    website = "https://github.com/charlesmuchene/temp-semver-bump"
+}
+
+publishing {
+    repositories {
+        mavenLocal()
     }
 }

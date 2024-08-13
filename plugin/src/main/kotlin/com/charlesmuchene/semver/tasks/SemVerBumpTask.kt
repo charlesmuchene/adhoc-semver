@@ -9,7 +9,7 @@ import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Internal
 
-abstract class BumpSemVerTask : SemVerTask() {
+abstract class SemVerBumpTask : SemVerTask() {
 
     @get:Input
     abstract val bumpType: Property<BumpType>
