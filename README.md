@@ -4,32 +4,40 @@ A gradle plugin to bump a project's version.
 
 ## Structure
 
-This plugin adds two tasks to the graph:
+The plugin adds two tasks to the task graph:
 
-* BumpSemVerTask - Bumps the version in the configured properties file
+* SemVerBumpTask - Bumps the version in the specified in _properties file_
 
-* SetSemVerTask - Sets the given version in the configured properties file
+* SemVerSetTask - Sets the given version in the configured properties file: defaults to version specified in _properties file_
 
 ## Usage
+
+Apply the plugin:
+
+```kotlin
+plugins {
+    ...
+    id("com.charlesmuchene.temp.semver.bump")
+}
+```
 
 Configure the plugin:
 
 ```kotlin
-adhocSemVer {
+tempSemVerBump {
     versionFile = layout.projectDirectory.file("gradle.properties")
-    shouldRevertVersionAfterExecution = true
-    runBefore = <some-task>
-    bumpType = BumpType.MAJOR
+    targetTaskName = "publishToMavenLocal"
+    bumpType = BumpType.PATCH
 }
 ```
 
-The tasks can be ran independenly or commonly configured to depend on existing tasks for instance a `publish` task.
+By default, the plugin is set configure the task dependency as follows:
 
-> ./gradlew adhocSemVer
->
-> or
->
-> ./gradlew publish
+* if the `maven-publish` plugin is applied to the project, run the tasks in this order: `SemVerBumpTask` > `<target-task-name>` > `SemVerSetTask`: (`targetTaskName` defaults to `publishToMavenLocal`)
+
+* if the `maven-publish` plugin is not applied to the project, no task dependency is set.
+
+> For more info on usage, checkout the [sample project](./sample).
 
 ## License
 
